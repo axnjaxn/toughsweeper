@@ -1,20 +1,26 @@
 APPNAME = toughsweeper
-LFLAGS = -lSDL -lSDLmain -lSDL_ttf
 
-build: clean $(APPNAME)
+LFLAGS = `sdl-config --libs` -lSDL_ttf
+DFLAGS = -O2 -Wno-unused-result
+EXT = 
 
-$(APPNAME):
-	g++ -c *.cpp
-	g++ *.o -o $(APPNAME) $(LFLAGS)
+APP = $(APPNAME)$(EXT)
 
-run: build
-	./$(APPNAME)
+OBJECT_FILES = field.o main.o
+
+all: $(APP)
+
+.cpp.o:
+	$(CXX) -c $< $(DFLAGS)
+
+$(APP): $(OBJECT_FILES)
+	$(CXX) $(OBJECT_FILES) -o $(APP) $(LFLAGS) $(DFLAGS)
+
+run: $(APP)
+	./$(APP)
 
 clean:
 	rm -f *.o *~ $(APPNAME)
-
-debug: $(APPNAME)
-	gdb $(APPNAME)
 
 install: $(APPNAME) FreeSans.ttf
 	cp $(APPNAME) -t /usr/local/bin
