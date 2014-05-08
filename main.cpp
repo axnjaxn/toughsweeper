@@ -6,6 +6,7 @@
 #define TITLE "ToughSweeper by Brian Jackson"
 
 #define CELLSIZE 30
+//should be const Field&
 void displayField(SDL_Surface* screen, Field& field, TTF_Font* font, int mr, int mc) {
   SDL_Rect rect;
   SDL_Surface* text = NULL;
