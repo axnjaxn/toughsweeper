@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 
-int Field::getNeighborhood(int r0, int c0, int n) {
+int Field::getNeighborhood(int r0, int c0, int n) const {
   if (cells[r0 * w + c0] & FIELD_BOMB) return 0;
   int mines = 0;
   for (int r = -n; r <= n; r++)
@@ -67,11 +67,7 @@ void Field::reset() {
     
   for (int r = 0; r < h; r++)
     for (int c = 0; c < w; c++)
-      cells[r * w + c] += getNeighborhood(r, c, nsize);//Shouldn't this be |=?
-}
-
-void Field::setVisible(int r, int c) {
-  if (!(cells[r * w + c] & FIELD_VISIBLE)) cells[r * w + c] += FIELD_VISIBLE;//This too
+      cells[r * w + c] |= getNeighborhood(r, c, nsize);
 }
 
 void Field::traverseZero(int r, int c) {
