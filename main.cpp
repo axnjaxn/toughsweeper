@@ -6,8 +6,7 @@
 #define TITLE "ToughSweeper by Brian Jackson"
 
 #define CELLSIZE 30
-//should be const Field&
-void displayField(SDL_Surface* screen, Field& field, TTF_Font* font, int mr, int mc) {
+void displayField(SDL_Surface* screen, const Field& field, TTF_Font* font, int mr, int mc) {
   SDL_Rect rect;
   SDL_Surface* text = NULL;
   char label[8];
@@ -26,16 +25,16 @@ void displayField(SDL_Surface* screen, Field& field, TTF_Font* font, int mr, int
 
       if (r <= mr + 2 && r >= mr - 2 && c <= mc + 2 && c >= mc - 2) {
 	bgcolor.r = bgcolor.g = 0xFF;
-	if (field.checkVisible(r, c)) bgcolor.b = 0xA0;
+	if (field.isVisible(r, c)) bgcolor.b = 0xA0;
 	else bgcolor.b = 0x80;
       }
 
-      if (field.checkFlagged(r, c)) {
+      if (field.isFlagged(r, c)) {
 	bgcolor.b = 0xFF;
 	bgcolor.r = bgcolor.g = 0;
       }
-      else if (field.checkVisible(r, c)) {
-	if (field.checkBomb(r, c)) {
+      else if (field.isVisible(r, c)) {
+	if (field.isBomb(r, c)) {
 	  bgcolor.r = 0xFF;
 	  bgcolor.g = bgcolor.b = 0;
 	}
@@ -209,11 +208,11 @@ int main(int argc, char* argv[]) {
       }
       else if (!dead && event.type == SDL_MOUSEBUTTONDOWN) {
 	if (event.button.button == SDL_BUTTON_RIGHT) {
-	  if (!field.checkVisible(r, c)) field.flag(r,c);
+	  if (!field.isVisible(r, c)) field.flag(r,c);
 	}
 	else if (event.button.button == SDL_BUTTON_LEFT) {
 	  field.setVisible(r, c);
-	  if (field.checkBomb(r, c)) dead = 1;
+	  if (field.isBomb(r, c)) dead = 1;
 	  else if (field.neighbors(r, c) == 0)
 	    field.traverseZero(r, c);
 	}

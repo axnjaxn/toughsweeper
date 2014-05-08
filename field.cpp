@@ -77,7 +77,7 @@ void Field::setVisible(int r, int c) {
 void Field::traverseZero(int r, int c) {
   for (int nr = r - nsize; nr <= r + nsize; nr++) {
     for (int nc = c - nsize; nc <= c + nsize; nc++) {
-      if (nr >= 0 && nr < h && nc >= 0 && nc < w && !checkVisible(nr, nc)) {
+      if (nr >= 0 && nr < h && nc >= 0 && nc < w && !isVisible(nr, nc)) {
 	setVisible(nr, nc);
 	if (neighbors(nr, nc) == 0) traverseZero(nr, nc);
       }
@@ -96,22 +96,6 @@ void Field::flag(int r, int c) {
     if (cells[r * w + c] & FIELD_BOMB) nminesleft--;
     nflagsleft--;
   }
-}
-
-int Field::checkVisible(int r, int c) {
-  return ((cells[r * w + c] & FIELD_VISIBLE) != 0);
-}
-
-int Field::checkFlagged(int r, int c) {
-  return ((cells[r * w + c] & FIELD_FLAGGED) != 0);
-}
-
-int Field::checkBomb(int r, int c) {
-  return ((cells[r * w + c] & FIELD_BOMB) != 0);
-}
-
-int Field::neighbors(int r, int c) {
-  return (cells[r * w + c] & FIELD_NUMBERS);
 }
 
 void Field::print() {

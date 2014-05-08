@@ -33,11 +33,10 @@ public:
   void traverseZero(int r, int c);//?
   void flag(int r, int c);//?
   
-  //These should all be const
-  int checkVisible(int r, int c);//repl. with isVisible
-  int checkFlagged(int r, int c);//repl. with isFlagged
-  int checkBomb(int r, int c);//isBomb
-  int neighbors(int r, int c);
+  inline bool isVisible(int r, int c) const {return cells[r * w + c] & FIELD_VISIBLE;}
+  inline bool isFlagged(int r, int c) const {return cells[r * w + c] & FIELD_FLAGGED;}
+  inline bool isBomb(int r, int c) const {return cells[r * w + c] & FIELD_BOMB;}
+  inline int neighbors(int r, int c) const {return cells[r * w + c] & FIELD_NUMBERS;}
 
   void print();
 };
